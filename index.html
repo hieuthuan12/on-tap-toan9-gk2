@@ -130,13 +130,13 @@
             document.getElementById('btn-action').disabled = true;
 
             const imgArea = document.getElementById('image-area');
+            const dImg = document.getElementById('display-img');
             if(q.isImg) {
                 imgArea.classList.remove('hidden');
-                const saved = localStorage.getItem(`img_q${q.id}`);
-                const dImg = document.getElementById('display-img');
-                if(saved) { dImg.src = saved; dImg.classList.remove('hidden'); }
-                else { dImg.classList.add('hidden'); }
-            } else imgArea.classList.add('hidden');
+                dImg.src = q.imgPath; // Tự động lấy ảnh từ folder images
+            } else {
+                imgArea.classList.add('hidden');
+            } 
 
             const list = document.getElementById('options-list');
             list.innerHTML = '';
@@ -196,3 +196,4 @@
 </body>
 
 </html>
+
