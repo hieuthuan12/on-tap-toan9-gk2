@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ôn Tập Toán 9 - Giữa HK2 - 46 Câu Full</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: { inlineMath: [['$', '$'], ['\\(', '\\)']], processEscapes: true },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
+        body { font-family: 'Inter', sans-serif; background: #f0fdfa; color: #1e293b; }
+        .math-text { font-size: 1.15rem; line-height: 1.8; }
+        .hidden { display: none; }
+        mjx-container { padding: 4px 0; }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+
+    <div id="quiz-container" class="max-w-4xl mx-auto">
+        <div class="flex justify-between items-center mb-6 bg-white p-6 rounded-[2rem] shadow-sm border border-emerald-100">
+            <div>
+                <h1 class="font-black text-emerald-600 text-2xl">TOÁN 9 - CTST</h1>
+                <p id="progress-text" class="text-sm text-slate-500 font-bold uppercase tracking-wider">Câu 1/46</p>
+            </div>
+            <div id="score-badge" class="bg-emerald-600 text-white px-6 py-2 rounded-2xl font-bold shadow-lg shadow-emerald-200">Đúng: 0</div>
+        </div>
+
+        <div class="bg-white p-6 md:p-12 rounded-[3rem] shadow-xl border border-slate-50 relative overflow-hidden">
+            <div id="question-text" class="math-text font-bold text-slate-800 mb-10 text-xl leading-relaxed"></div>
+            
+            <div id="image-area" class="hidden mb-10 border-4 border-dashed border-emerald-100 rounded-[2.5rem] p-8 bg-emerald-50 text-center">
+                <p class="text-xs text-emerald-600 mb-4 font-black uppercase">📷 Tải ảnh minh họa cho câu hỏi này</p>
+                <input type="file" accept="image/*" onchange="handleImage(this)" class="text-xs mb-4 block mx-auto">
+                <img id="display-img" class="hidden max-h-80 mx-auto rounded-3xl shadow-2xl border-8 border-white">
+            </div>
+
+            <div id="options-list" class="grid grid-cols-1 md:grid-cols-2 gap-5"></div>
+
+            <div id="explain-box" class="hidden mt-10 p-8 bg-indigo-50 rounded-[2.5rem] border-2 border-indigo-100 transition-all">
+                <div class="font-black text-indigo-800 mb-4 flex items-center gap-3">
+                    <span class="text-2xl">💡</span> HƯỚNG DẪN GIẢI CHI TIẾT
+                </div>
+                <div id="explain-content" class="math-text text-slate-700 leading-relaxed italic border-t border-indigo-200 pt-5"></div>
+            </div>
+
+            <button id="btn-action" onclick="handleAction()" disabled class="mt-12 w-full py-6 bg-emerald-600 text-white rounded-[2rem] font-black text-2xl shadow-xl shadow-emerald-100 disabled:opacity-20 hover:scale-[1.02] active:scale-95 transition-all">KIỂM TRA ĐÁP ÁN</button>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            { q: "Cho hàm số $y=3x^{2}$. Khi $x=2$ giá trị của $y$ là:", a: ["6", "12", "36", "18"], c: 1, e: "Bước 1: Thay giá trị $x=2$ vào công thức hàm số.<br>Bước 2: Tính toán: $y = 3 \\cdot (2)^{2} = 3 \\cdot 4 = 12$.<br>Vậy khi $x=2$ thì giá trị của $y$ bằng 12." },
+            { q: "Trong các điểm sau, điểm nào thuộc đồ thị hàm số $y=-2x^{2}$?", a: ["$(1; 2)$", "$(-1; 2)$", "$(1; -2)$", "$(2; -4)$"], c: 2, e: "Thay $x=1$ vào công thức hàm số: $y = -2 \\cdot (1)^{2} = -2$.<br>Do đó, điểm $(1; -2)$ thỏa mãn công thức hàm số và thuộc đồ thị." },
+            { q: "Cho hàm số $y=ax^{2}$ đi qua điểm $(2; 2)$. Hệ số $a$ là:", a: ["$a=1$", "$a=\\frac{1}{2}$", "$a=2$", "$a=-\\frac{1}{2}$"], c: 1, e: "Vì đồ thị đi qua $(2; 2)$, ta thay $x=2, y=2$ vào hàm số:<br>$2 = a \\cdot 2^{2} \\Rightarrow 2 = 4a$.<br>Suy ra $a = \\frac{2}{4} = \\frac{1}{2}$." },
+            { q: "Với giá trị nào của $x$ thì hàm số $y=\\frac{1}{2}x^{2}$ có giá trị bằng 8?", a: ["$x=4$", "$x=16$", "$x=\\pm 4$", "$x=2$"], c: 2, e: "Ta có phương trình: $\\frac{1}{2}x^{2} = 8$.<br>Nhân cả hai vế với 2: $x^{2} = 16$.<br>Suy ra $x = \\pm \\sqrt{16} = \\pm 4$." },
+            { q: "Vật rơi tự do theo công thức $s=5t^{2}$. Sau bao lâu vật rơi được quãng đường 20m?", a: ["4 giây", "2 giây", "100 giây", "1 giây"], c: 1, e: "Thay $s=20$ vào công thức: $20 = 5t^{2} \\Rightarrow t^{2} = 4$.<br>Vì thời gian $t$ luôn dương nên $t = \\sqrt{4} = 2$ giây." },
+            { q: "Đồ thị hàm số $y=ax^{2}$ ($a \\neq 0$) được gọi là một đường:", a: ["Đường thẳng", "Đường tròn", "Parabol", "Hyperbol"], c: 2, e: "Theo định nghĩa trong SGK Toán 9, đồ thị hàm số $y=ax^2$ ($a \\neq 0$) là một đường Parabol đi qua gốc tọa độ $O$." },
+            { q: "Nếu $a < 0$, đồ thị hàm số $y=ax^{2}$ nằm ở vị trí nào so với trục hoành?", a: ["Phía trên", "Phía dưới", "Bên trái", "Bên phải"], c: 1, e: "Khi $a < 0$, vì $x^2 \\ge 0$ nên $y = ax^2 \\le 0$ với mọi $x$.<br>Do đó, toàn bộ đồ thị nằm ở phía dưới trục hoành (trừ gốc tọa độ $O$)." },
+            { q: "Đồ thị hàm số $y=\\frac{1}{2}x^{2}$ đi qua điểm nào trong các điểm sau?", a: ["$M(1; 2)$", "$N(2; 1)$", "$P(-2; 2)$", "$Q(2; 4)$"], c: 2, e: "Thay $x=-2$ vào hàm số: $y = \\frac{1}{2}(-2)^{2} = \\frac{1}{2} \\cdot 4 = 2$.<br>Vậy điểm $P(-2; 2)$ thuộc đồ thị." },
+            { q: "Hàm số $y=ax^{2}$ đi qua điểm $A(-1; 3)$. Giá trị của $a$ là:", a: ["3", "-3", "1", "$\\frac{1}{3}$"], c: 0, e: "Thay $x=-1, y=3$ vào công thức: $3 = a \\cdot (-1)^{2}$.<br>Vì $(-1)^{2} = 1$ nên $a = 3$." },
+            { q: "Số giao điểm của đồ thị $y=x^{2}$ và đường thẳng $y=2x+3$ là:", a: ["0", "1", "2", "3"], c: 2, e: "Xét phương trình hoành độ giao điểm: $x^{2} = 2x + 3 \\Leftrightarrow x^{2} - 2x - 3 = 0$.<br>Phương trình có $a - b + c = 1 - (-2) + (-3) = 0$, nên có 2 nghiệm phân biệt. Vậy có 2 giao điểm." },
+            { q: "Cho hàm số $y=-\\frac{1}{2}x^{2}$. Điểm thuộc đồ thị có tung độ gấp đôi hoành độ là:", a: ["$(0; 0)$", "$(-4; -8)$", "Cả A và B đều đúng", "$(2; 4)$"], c: 2, e: "Gọi hoành độ là $x$, tung độ là $y=2x$.<br>Thay vào hàm số: $2x = -\\frac{1}{2}x^{2} \\Rightarrow x^{2} + 4x = 0$.<br>Giải ra $x=0$ (điểm $(0;0)$) hoặc $x=-4$ (điểm $(-4;-8)$)." },
+            { q: "Điểm thuộc đồ thị $(P): y=x^{2}$ có tung độ bằng 4 là:", a: ["$(2; 4)$", "$(-2; 4)$", "Cả A và B đều đúng", "$(4; 2)$"], c: 2, e: "Thay $y=4$: $x^{2} = 4 \\Rightarrow x = 2$ hoặc $x = -2$.<br>Vậy có hai điểm thỏa mãn là $(2; 4)$ và $(-2; 4)$." },
+            { q: "Điểm đối xứng với điểm $M(-a; b)$ qua trục tung $Oy$ là:", a: ["$(b; -a)$", "$(-b; a)$", "$(a; b)$", "$(a; -b)$"], c: 2, e: "Quy tắc đối xứng qua $Oy$: Giữ nguyên tung độ $y$, đổi dấu hoành độ $x$.<br>$-a \\rightarrow a$. Vậy điểm đối xứng là $(a; b)$." },
+            { q: "Trong các phương trình sau, phương trình nào là phương trình bậc hai một ẩn?", a: ["$2x+3=0$", "$x^{2}-5x+6=0$", "$x^{3}+x^{2}-1=0$", "$0x^{2}+2x-3=0$"], c: 1, e: "Phương trình bậc hai một ẩn có dạng $ax^2 + bx + c = 0$ với điều kiện $a \\neq 0$." },
+            { q: "Hệ số $a, b, c$ của phương trình $3x^{2}-5x-2=0$ lần lượt là:", a: ["$3; 5; 2$", "$3; -5; -2$", "$3; -5; 0$", "$-3; 5; 2$"], c: 1, e: "Đối chiếu với dạng $ax^{2}+bx+c=0$, ta có: $a=3, b=-5, c=-2$." },
+            { q: "Điều kiện để phương trình $ax^{2}+bx+c=0$ là phương trình bậc hai một ẩn là:", a: ["$a > 0$", "$a \\neq 0$", "$b \\neq 0$", "$a, b, c \\neq 0$"], c: 1, e: "Theo định nghĩa, hệ số đứng trước $x^2$ (là $a$) phải khác 0." },
+            { q: "Phương trình $(m-1)x^{2}+2x-5=0$ là phương trình bậc hai khi và chỉ khi:", a: ["$m=1$", "$m \\neq 1$", "$m \\neq 0$", "Mọi giá trị của $m$"], c: 1, e: "Để là phương trình bậc hai, hệ số $a = m-1$ phải khác 0. Suy ra $m \\neq 1$." },
+            { q: "Biến đổi phương trình $x(x-2)=3$ về dạng tổng quát $ax^{2}+bx+c=0$ là:", a: ["$x^{2}-2x+3=0$", "$x^{2}+2x-3=0$", "$x^{2}-2x-3=0$", "$x^{2}-2x=3$"], c: 2, e: "Khai triển vế trái: $x^2 - 2x$. Chuyển số 3 sang vế trái: $x^2 - 2x - 3 = 0$." },
+            { q: "Biệt thức $\\Delta$ của phương trình bậc hai được tính bởi công thức:", a: ["$\\Delta = b^2-ac$", "$\\Delta = b^2-4ac$", "$\\Delta = b-4ac$", "$\\Delta = b^2+4ac$"], c: 1, e: "Đây là công thức chuẩn để tính biệt thức Delta của phương trình bậc hai." },
+            { q: "Nếu biệt thức $\\Delta > 0$ thì phương trình bậc hai có:", a: ["Vô nghiệm", "Nghiệm duy nhất", "Hai nghiệm phân biệt", "Vô số nghiệm"], c: 2, e: "Khi $\\Delta > 0$, căn bậc hai của $\\Delta$ tồn tại và khác 0, tạo ra hai nghiệm riêng biệt." },
+            { q: "Tập nghiệm của phương trình $x^{2}-9=0$ là:", a: ["$\\{3\\}$", "$\\{-3\\}$", "$\\{3; -3\\}$", "$\\{9\\}$"], c: 2, e: "$x^{2} = 9 \\Leftrightarrow x = \\pm \\sqrt{9} = \\pm 3$." },
+            { q: "Nghiệm của phương trình $x^{2}-5x+4=0$ là:", a: ["$1$ và $4$", "$-1$ và $-4$", "$2$ và $3$", "Vô nghiệm"], c: 0, e: "Vì $a+b+c = 1-5+4 = 0$ nên phương trình có một nghiệm bằng 1, nghiệm còn lại bằng $\\frac{c}{a} = 4$." },
+            { q: "Tìm $m$ để phương trình $x^{2}-2x+m=0$ có nghiệm kép:", a: ["$0$", "$1$", "$-1$", "$2$"], c: 1, e: "Phương trình có nghiệm kép khi $\\Delta' = (-1)^{2} - 1 \\cdot m = 0 \\Rightarrow 1 - m = 0 \\Rightarrow m = 1$." },
+            { q: "Tổng hai nghiệm $x_1+x_2$ của phương trình bậc hai theo định lý Vi-ét là:", a: ["$\\frac{c}{a}$", "$-\\frac{b}{a}$", "$\\frac{b}{a}$", "$-\\frac{c}{a}$"], c: 1, e: "Định lý Vi-ét phát biểu: Tổng hai nghiệm là $S = -\\frac{b}{a}$." },
+            { q: "Nếu phương trình $ax^{2}+bx+c=0$ có $a+b+c=0$ thì hai nghiệm là:", a: ["$x_1=1; x_2=\\frac{c}{a}$", "$x_1=-1; x_2=-\\frac{c}{a}$", "$x_1=1; x_2=-\\frac{c}{a}$", "$x_1=-1; x_2=\\frac{c}{a}$"], c: 0, e: "Đây là trường hợp nhẩm nghiệm đặc biệt của phương trình bậc hai." },
+            { q: "Tổng $S$ và tích $P$ của phương trình $x^{2}-7x+10=0$ là:", a: ["$S=-7; P=10$", "$S=7; P=10$", "$S=10; P=7$", "$S=7; P=-10$"], c: 1, e: "$S = -\\frac{b}{a} = -\\frac{-7}{1} = 7$. $P = \\frac{c}{a} = \\frac{10}{1} = 10$." },
+            { q: "Hai số có tổng $S=5$ và tích $P=6$ là nghiệm của phương trình nào?", a: ["$x^{2}+5x+6=0$", "$x^{2}-5x+6=0$", "$x^{2}-6x+5=0$", "$x^{2}+6x+5=0$"], c: 1, e: "Công thức tìm hai số khi biết tổng $S$ và tích $P$ là $x^2 - Sx + P = 0$." },
+            { q: "Cho phương trình $x^{2}-3x+1=0$. Giá trị của biểu thức $x_1^{2}+x_2^{2}$ là:", a: ["$9$", "$7$", "$11$", "$10$"], c: 1, e: "Ta có $x_1+x_2=3, x_1x_2=1$.<br>Biểu thức $x_1^{2}+x_2^{2} = (x_1+x_2)^{2} - 2x_1x_2 = 3^{2} - 2(1) = 7$." },
+            { q: "Hai số có tổng bằng 32 và tích bằng 231 là nghiệm của phương trình:", a: ["$x^{2}-231x-32=0$", "$x^{2}+32x+231=0$", "$x^{2}-32x+231=0$", "$x^{2}-231x+32=0$"], c: 2, e: "Thay $S=32, P=231$ vào $x^2 - Sx + P = 0$." },
+            { q: "Doanh thu một công ty là $R(x)=x(220-4x)$. Để doanh thu đạt 3000, giá trị $x$ là:", a: ["30", "40", "50", "25"], c: 0, e: "Giải phương trình $x(220-4x) = 3000 \\Rightarrow -4x^{2} + 220x - 3000 = 0$.<br>Chia cho $-4$: $x^{2} - 55x + 750 = 0$.<br>Giải phương trình ta được $x=30$ hoặc $x=25$. Ở đây đáp án A có 30." },
+            { q: "Một sân bóng hình chữ nhật dài hơn rộng 30m, diện tích $1800m^2$. Kích thước là:", a: ["90m và 20m", "60m và 30m", "45m và 15m", "50m và 20m"], c: 1, e: "Gọi chiều rộng là $x$, chiều dài là $x+30$.<br>PT: $x(x+30)=1800 \\Rightarrow x^{2}+30x-1800=0$. Giải ra $x=30$ (chiều rộng) và $x+30=60$ (chiều dài)." },
+            { q: "Tâm của đường tròn nội tiếp một tam giác là giao điểm của các đường:", a: ["Trung trực", "Trung tuyến", "Phân giác ngoài", "Phân giác trong"], c: 3, e: "Đường tròn nội tiếp tiếp xúc 3 cạnh, tâm của nó cách đều 3 cạnh, đó là giao điểm 3 đường phân giác trong." },
+            { id: 33, q: "(HÌNH ẢNH) Trong các hình sau, đường tròn nào là đường tròn nội tiếp tam giác ABC?", a: ["Hình a", "Hình b", "Hình c", "Hình d"], c: 3, isImg: true, e: "Đường tròn nội tiếp tam giác là đường tròn nằm bên trong và tiếp xúc với cả ba cạnh của tam giác." },
+            { id: 34, q: "(HÌNH ẢNH) Trong các hình sau, đường tròn nào là đường tròn ngoại tiếp tam giác ABC?", a: ["Hình 1", "Hình 2", "Hình 3", "Hình 4"], c: 1, isImg: true, e: "Đường tròn ngoại tiếp tam giác là đường tròn đi qua cả ba đỉnh của tam giác." },
+            { q: "Tâm của đường tròn ngoại tiếp tam giác là giao điểm của ba đường:", a: ["Trung trực", "Phân giác", "Trung tuyến", "Đường cao"], c: 0, e: "Tâm đường tròn ngoại tiếp cách đều 3 đỉnh, đó chính là giao điểm của 3 đường trung trực." },
+            { q: "Đường tròn được gọi là nội tiếp tam giác khi:", a: ["Nó đi qua 3 đỉnh", "Nó tiếp xúc với các đường thẳng chứa cạnh", "Nó tiếp xúc với 3 cạnh của tam giác", "Nó nằm hoàn toàn bên trong tam giác"], c: 2, e: "Định nghĩa: Đường tròn nội tiếp tam giác là đường tròn tiếp xúc với ba cạnh của tam giác đó." },
+            { q: "Tứ giác nào sau đây luôn luôn có một đường tròn ngoại tiếp (nội tiếp đường tròn)?", a: ["Hình thoi", "Hình thang", "Hình chữ nhật", "Hình bình hành"], c: 2, e: "Tứ giác nội tiếp được khi tổng hai góc đối bằng $180^{\\circ}$. Hình chữ nhật có các góc đều bằng $90^{\\circ}$ nên tổng hai góc đối là $180^{\\circ}$." },
+            { q: "Nếu tứ giác $ABCD$ nội tiếp đường tròn thì tổng $\\widehat{A} + \\widehat{C}$ bằng:", a: ["$180^{\\circ}$", "$90^{\\circ}$", "$360^{\\circ}$", "$0^{\\circ}$"], c: 0, e: "Đây là tính chất cơ bản của tứ giác nội tiếp: Tổng hai số đo góc đối diện bằng $180^{\\circ}$." },
+            { q: "Cho tam giác đều có đường cao bằng 9cm. Bán kính đường tròn nội tiếp $r$ là:", a: ["6cm", "3cm", "4.5cm", "$3\\sqrt{3}cm$"], c: 1, e: "Trong tam giác đều, bán kính đường tròn nội tiếp $r$ bằng $\\frac{1}{3}$ độ dài đường cao. $r = 9 : 3 = 3$cm." },
+            { q: "Cho tam giác vuông cân có $AB=AC=4$. Bán kính đường tròn ngoại tiếp $R$ là:", a: ["$2\\sqrt{2}$", "$\\sqrt{2}$", "$4\\sqrt{2}$", "$8\\sqrt{2}$"], c: 0, e: "Cạnh huyền $BC = \\sqrt{4^{2}+4^{2}} = 4\\sqrt{2}$. Trong tam giác vuông, tâm đường tròn ngoại tiếp là trung điểm cạnh huyền, nên $R = \\frac{BC}{2} = 2\\sqrt{2}$." },
+            { id: 41, q: "(HÌNH ẢNH) Tứ giác ở hình nào sau đây là tứ giác nội tiếp đường tròn (O)?", a: ["Hình 1", "Hình 2", "Hình 3", "Hình 4"], c: 2, isImg: true, e: "Tứ giác nội tiếp khi cả bốn đỉnh của nó đều nằm trên đường tròn đó." },
+            { q: "Phát biểu nào sau đây là đúng về tứ giác nội tiếp?", a: ["Mọi tứ giác đều nội tiếp", "Tổng hai góc đối diện bằng $90^{\\circ}$", "Tổng hai góc đối diện bằng $180^{\\circ}$", "Hình thang cân không phải tứ giác nội tiếp"], c: 2, e: "Định lý: Một tứ giác có tổng số đo hai góc đối diện bằng $180^{\\circ}$ thì tứ giác đó nội tiếp được đường tròn." },
+            { q: "Cho tứ giác $MNPQ$ nội tiếp đường tròn có $\\widehat{M}=60^{\\circ}$. Số đo góc $\\widehat{P}$ đối diện là:", a: ["$30^{\\circ}$", "$120^{\\circ}$", "$180^{\\circ}$", "$90^{\\circ}$"], c: 1, e: "Vì tứ giác nội tiếp nên $\\widehat{M} + \\widehat{P} = 180^{\\circ}$. Suy ra $\\widehat{P} = 180^{\\circ} - 60^{\\circ} = 120^{\\circ}$." },
+            { id: 44, q: "(HÌNH ẢNH) Cho hình vẽ, biết $\\widehat{DAO}=50^{\\circ}, \\widehat{OCD}=30^{\\circ}$. Số đo góc $\\widehat{ABC}$ là:", a: ["$80^{\\circ}$", "$90^{\\circ}$", "$100^{\\circ}$", "$110^{\\circ}$"], c: 2, isImg: true, e: "Sử dụng tính chất tam giác cân (OA=OD, OC=OD) để tính $\\widehat{ADC}$, sau đó dùng tính chất tứ giác nội tiếp: $\\widehat{ABC} = 180^{\\circ} - \\widehat{ADC} = 100^{\\circ}$." },
+            { q: "Tứ giác $ABDC$ nội tiếp đường tròn có $\\widehat{ACD}=60^{\\circ}$. Khẳng định nào sau đây đúng?", a: ["$\\widehat{ADC}=60^{\\circ}$", "$\\widehat{ADC}=120^{\\circ}$", "$\\widehat{ABD}=60^{\\circ}$", "$\\widehat{ABD}=120^{\\circ}$"], c: 2, e: "Trong một đường tròn, các góc nội tiếp cùng chắn một cung thì bằng nhau. Góc $\\widehat{ACD}$ và $\\widehat{ABD}$ cùng chắn cung $AD$ nên chúng bằng nhau và bằng $60^{\\circ}$." },
+            { q: "Cho đường tròn (O) có hai tiếp tuyến $MA, MB$. Biết $\\widehat{AMB}=58^{\\circ}$. Số đo góc $\\widehat{ABO}$ là:", a: ["$24^{\\circ}$", "$29^{\\circ}$", "$30^{\\circ}$", "$31^{\\circ}$"], c: 1, e: "Trong tứ giác nội tiếp $OAMB$, $\\widehat{AOB} = 180^{\\circ} - 58^{\\circ} = 122^{\\circ}$. Tam giác $OAB$ cân tại $O$ nên $\\widehat{ABO} = (180^{\\circ} - 122^{\\circ}) : 2 = 29^{\\circ}$." }
+        ];
+
+        let cur = 0, score = 0, selected = null, state = 'check';
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+        function playClap() {
+            const freqs = [523.25, 659.25, 783.99, 1046.50];
+            freqs.forEach((f, i) => {
+                const osc = audioCtx.createOscillator();
+                const g = audioCtx.createGain();
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(f, audioCtx.currentTime + i*0.06);
+                g.gain.setValueAtTime(0.1, audioCtx.currentTime + i*0.06);
+                g.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + i*0.06 + 0.5);
+                osc.connect(g); g.connect(audioCtx.destination);
+                osc.start(audioCtx.currentTime + i*0.06); osc.stop(audioCtx.currentTime + i*0.06 + 0.6);
+            });
+        }
+
+        function showQ() {
+            const q = questions[cur];
+            selected = null; state = 'check';
+            document.getElementById('progress-text').innerText = `Câu ${cur + 1}/46`;
+            document.getElementById('question-text').innerHTML = q.q;
+            document.getElementById('explain-box').classList.add('hidden');
+            document.getElementById('btn-action').innerText = "KIỂM TRA ĐÁP ÁN";
+            document.getElementById('btn-action').disabled = true;
+
+            const imgArea = document.getElementById('image-area');
+            if(q.isImg) {
+                imgArea.classList.remove('hidden');
+                const saved = localStorage.getItem(`img_q${q.id}`);
+                const dImg = document.getElementById('display-img');
+                if(saved) { dImg.src = saved; dImg.classList.remove('hidden'); }
+                else { dImg.classList.add('hidden'); }
+            } else imgArea.classList.add('hidden');
+
+            const list = document.getElementById('options-list');
+            list.innerHTML = '';
+            q.a.forEach((t, i) => {
+                const b = document.createElement('button');
+                b.className = "p-5 rounded-2xl border-2 text-left font-bold border-slate-200 transition-all hover:border-emerald-300 hover:bg-emerald-50";
+                b.innerHTML = `<span class="text-emerald-500 mr-3">${String.fromCharCode(65+i)}.</span> ${t}`;
+                b.onclick = () => {
+                    if(state === 'next') return;
+                    selected = i;
+                    document.querySelectorAll('#options-list button').forEach(el => el.className = "p-5 rounded-2xl border-2 text-left font-bold border-slate-200 transition-all hover:bg-emerald-50");
+                    b.className = "p-5 rounded-2xl border-2 text-left font-bold border-emerald-600 bg-emerald-50 shadow-md";
+                    document.getElementById('btn-action').disabled = false;
+                };
+                list.appendChild(b);
+            });
+            MathJax.typesetPromise();
+        }
+
+        async function handleAction() {
+            if(state === 'check') {
+                const q = questions[cur];
+                const btns = document.querySelectorAll('#options-list button');
+                state = 'next';
+                if(selected === q.c) {
+                    btns[selected].classList.add('bg-emerald-500', 'text-white', 'border-emerald-500');
+                    score++; playClap();
+                } else {
+                    btns[selected].classList.add('bg-rose-500', 'text-white', 'border-rose-500');
+                    btns[q.c].classList.add('border-emerald-500', 'bg-emerald-50', 'text-emerald-700');
+                }
+                document.getElementById('score-badge').innerText = `Đúng: ${score}`;
+                document.getElementById('explain-content').innerHTML = q.e;
+                document.getElementById('explain-box').classList.remove('hidden');
+                document.getElementById('btn-action').innerText = "CÂU TIẾP THEO";
+                await MathJax.typesetPromise();
+            } else {
+                cur++;
+                if(cur < questions.length) showQ();
+                else alert("Hoàn thành bài tập! Điểm số: " + score + "/46");
+            }
+        }
+
+        function handleImage(input) {
+            const file = input.files[0];
+            if(file) {
+                const r = new FileReader();
+                r.onload = (e) => {
+                    localStorage.setItem(`img_q${questions[cur].id}`, e.target.result);
+                    showQ();
+                };
+                r.readAsDataURL(file);
+            }
+        }
+        window.onload = showQ;
+    </script>
+</body>
+</html>
